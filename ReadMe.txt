@@ -1,0 +1,1 @@
+proj.win32のHelloCocos.slnを実行。
