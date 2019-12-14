@@ -45,10 +45,10 @@ bool TitleScene::init()
 	// Touch to Start 추가
 	auto touchToStart = Sprite::create("title_start.png");
 	touchToStart->setPosition(Vec2(winSize.width / 2.0f, 90.0f));
-	this->addChild(touchToStart);
+	// this->addChild(touchToStart);
 	// 점멸하도록 하는 액션
-	auto blink = Sequence::create(FadeTo::create(0.5, 127)
-		, FadeTo::create(0.5, 255)
+	auto blink = Sequence::create(FadeTo::create(0.5f, 127.0f)
+		, FadeTo::create(0.5f, 255.0f)
 		, NULL);
 	touchToStart->runAction(RepeatForever::create(blink));
 	this->addChild(touchToStart);
@@ -64,6 +64,7 @@ bool TitleScene::init()
 		auto delay = DelayTime::create(0.5f);
 		// 게임이 시작되는 액션
 		auto startGame = CallFunc::create([] {
+			Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
 			auto scene = MainScene::createScene();
 			auto transition = TransitionPageTurn::create(0.5f, scene, true);
 			Director::getInstance()->replaceScene(transition);
@@ -72,6 +73,10 @@ bool TitleScene::init()
 
 		return true;
 	};
+
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+
+	return true;
 }
 
 void TitleScene::onEnterTransitionDidFinish()
